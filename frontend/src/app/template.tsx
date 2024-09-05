@@ -10,40 +10,37 @@ import {
   NavbarMenu,
   NavbarMenuItem,
   Link,
-  Input
+  Input,
 } from "@nextui-org/react";
 import Button from "@/components/Button";
+import "swiper/css";
 
-export default function Template({
-  children
-}: {
-  children: React.ReactNode
-}) {
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-
-  const menuItems = [
-    "Home",
-    "About",
-    "Services",
-    "Careers",
-  ];
+export default function Template({ children }: { children: React.ReactNode }) {
+  const menuItems = ["Home", "About", "Services", "Careers"];
 
   return (
     <>
-      <Navbar className="dark bg-primary" height="80px">
+      <Navbar maxWidth="xl" className="dark bg-primary" height="80px">
         <NavbarContent className="sm:hidden !grow-0" justify="start">
           <NavbarMenuToggle className="text-white" />
         </NavbarContent>
 
         <NavbarContent className="sm:hidden pr-3" justify="start">
           <NavbarBrand>
-            <p className="font-extrabold text-4xl text-foreground">Fair Computers</p>
+            <div className="font-extrabold text-4xl text-foreground">
+              Fair Computers
+            </div>
           </NavbarBrand>
         </NavbarContent>
 
-        <NavbarContent className="hidden sm:flex sm:gap-6 md:gap-12" justify="end">
+        <NavbarContent
+          className="hidden sm:flex sm:gap-6 md:gap-12"
+          justify="end"
+        >
           <NavbarBrand>
-            <p className="font-extrabold text-4xl text-foreground">Fair Computers</p>
+            <div className="font-extrabold text-4xl text-foreground">
+              Fair Computers
+            </div>
           </NavbarBrand>
           {menuItems.map((item, index) => (
             <NavbarItem key={`${item}-${index}`}>
@@ -74,12 +71,7 @@ export default function Template({
         <NavbarMenu>
           {menuItems.map((item, index) => (
             <NavbarMenuItem key={`${item}-${index}`}>
-              <Link
-                className="w-full"
-                color="foreground"
-                href="#"
-                size="lg"
-              >
+              <Link className="w-full" color="foreground" href="#" size="lg">
                 {item}
               </Link>
             </NavbarMenuItem>
@@ -87,50 +79,170 @@ export default function Template({
         </NavbarMenu>
       </Navbar>
 
-      <main className="light flex min-h-screen flex-col items-center justify-between">
-        {children}
-      </main>
+      <main className="">{children}</main>
 
-      <footer className="bg-dark flex w-full h-auto items-center justify-center py-20 text-white flex-col lg:flex-row gap-10">
-        <div className="flex px-6 w-full flex-col lg:flex-row relative flex-nowrap items-center justify-between h-[var(--navbar-height)] max-w-[1024px] gap-16">
-          <div className="flex gap-12 w-full items-center justify-between">
-            <div className="flex flex-col gap-8 flex-1 lg:flex-initial lg:min-w-[500px]">
-              <p className="font-extrabold text-4xl">Fair Computers</p>
-              <p className="font-general-sans text-sm">Join our mailing list to stay up to date on offers and services.</p>
-              <form className="inline-flex gap-4" name="subscribe" method="POST">
-                <Input type="email" variant="underlined" placeholder="Enter your email" />
-                <Button
-                  className="font-semibold font-general-sans py-6 px-6"
-                  type="button"
-                  color="light"
-                  radius="full"
+      <footer className="dark bg-dark text-white w-full py-20">
+        <div className="container max-w-[1280px] mx-auto px-6">
+          <div className="flex flex-col lg:flex-row justify-between gap-10 mb-10">
+            <div className="flex flex-col lg:flex-row w-full justify-between items-start gap-10 lg:gap-16">
+              <div className="flex flex-col gap-8 w-full lg:min-w-[500px]">
+                <h2 className="text-4xl font-extrabold">Fair Computers</h2>
+                <div className="text-sm font-general-sans">
+                  Join our mailing list to stay up to date on offers and
+                  services.
+                </div>
+                <form
+                  className="inline-flex gap-4 items-center w-full"
+                  name="subscribe"
+                  method="POST"
                 >
-                  Subscribe
-                </Button>
-              </form>
-              <p className="font-general-sans text-sm leading-6">By subscribing you agree to with our Privacy Policy and provide consent to receive updates from our company.</p>
+                  <Input
+                    type="email"
+                    variant="underlined"
+                    placeholder="Enter your email"
+                    className="flex-grow"
+                  />
+                  <Button
+                    className="font-semibold font-general-sans py-3 px-6"
+                    type="submit"
+                    color="light"
+                    radius="full"
+                  >
+                    Subscribe
+                  </Button>
+                </form>
+                <div className="text-sm font-general-sans leading-6">
+                  By subscribing, you agree to our Privacy Policy and consent to
+                  receive updates from our company.
+                </div>
+              </div>
+              <div className="flex justify-between w-full">
+                <div className="flex flex-col flex-1 gap-4">
+                  <h3 className="text-xs font-semibold font-general-sans">
+                    Explore More
+                  </h3>
+                  <Link
+                    href="#"
+                    title="About"
+                    className="text-sm font-general-sans hover:underline"
+                    color="foreground"
+                  >
+                    About
+                  </Link>
+                  <Link
+                    href="#"
+                    title="Services"
+                    className="text-sm font-general-sans hover:underline"
+                    color="foreground"
+                  >
+                    Services
+                  </Link>
+                  <Link
+                    href="#"
+                    title="Contact Us"
+                    className="text-sm font-general-sans hover:underline"
+                    color="foreground"
+                  >
+                    Contact Us
+                  </Link>
+                  <Link
+                    href="#"
+                    title="Careers"
+                    className="text-sm font-general-sans hover:underline"
+                    color="foreground"
+                  >
+                    Careers
+                  </Link>
+                  <Link
+                    href="#"
+                    title="FAQs"
+                    className="text-sm font-general-sans hover:underline"
+                    color="foreground"
+                  >
+                    FAQs
+                  </Link>
+                </div>
+                <div className="flex flex-col flex-1 gap-4">
+                  <h3 className="text-xs font-semibold font-general-sans">
+                    Follow Us
+                  </h3>
+                  <Link
+                    href="#"
+                    title="Facebook"
+                    className="text-sm font-general-sans hover:underline"
+                    color="foreground"
+                  >
+                    Facebook
+                  </Link>
+                  <Link
+                    href="#"
+                    title="Instagram"
+                    className="text-sm font-general-sans hover:underline"
+                    color="foreground"
+                  >
+                    Instagram
+                  </Link>
+                  <Link
+                    href="#"
+                    title="X"
+                    className="text-sm font-general-sans hover:underline"
+                    color="foreground"
+                  >
+                    X
+                  </Link>
+                  <Link
+                    href="#"
+                    title="LinkedIn"
+                    className="text-sm font-general-sans hover:underline"
+                    color="foreground"
+                  >
+                    LinkedIn
+                  </Link>
+                  <Link
+                    href="#"
+                    title="YouTube"
+                    className="text-sm font-general-sans hover:underline"
+                    color="foreground"
+                  >
+                    YouTube
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
-          <div className="flex w-full">
-            <div className="flex flex-col self-start gap-4 flex-1">
-              <div className="font-semibold	font-general-sans text-xs">Explore More</div>
-              <div className="font-general-sans text-sm">About</div>
-              <div className="font-general-sans text-sm">Services</div>
-              <div className="font-general-sans text-sm">Contact US</div>
-              <div className="font-general-sans text-sm">Careers</div>
-              <div className="font-general-sans text-sm">FAQs</div>
+          <div className="flex flex-col lg:flex-row justify-between items-center gap-2">
+            <div className="text-sm font-general-sans text-white">
+              © 2024 Fair Computers. All rights reserved.
             </div>
-            <div className="flex flex-col self-start gap-4 flex-1">
-              <div className="font-semibold	font-general-sans text-xs">Follow Us</div>
-              <div className="font-general-sans text-sm">Facebook</div>
-              <div className="font-general-sans text-sm">Instagram</div>
-              <div className="font-general-sans text-sm">X</div>
-              <div className="font-general-sans text-sm">LinkedIn</div>
-              <div className="font-general-sans text-sm">Youtube</div>
+            <div className="flex gap-8">
+              <Link
+                href="#"
+                title="Privacy Policy"
+                className="text-sm font-general-sans underline hover:no-underline"
+                color="foreground"
+              >
+                Privacy Policy
+              </Link>
+              <Link
+                href="#"
+                title="Terms of Service"
+                className="text-sm font-general-sans underline hover:no-underline"
+                color="foreground"
+              >
+                Terms of Service
+              </Link>
+              <Link
+                href="#"
+                title="Cookies Settings"
+                className="text-sm font-general-sans underline hover:no-underline"
+                color="foreground"
+              >
+                Cookies Settings
+              </Link>
             </div>
           </div>
         </div>
       </footer>
     </>
-  )
+  );
 }

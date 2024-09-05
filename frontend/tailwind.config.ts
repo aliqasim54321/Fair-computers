@@ -12,18 +12,22 @@ const config: Config = {
   darkMode: "class",
   theme: {
     fontFamily: {
-      "general-sans": ['General Sans', 'Arial', 'sans-serif'],
+      "general-sans": ["General Sans", "Arial", "sans-serif"],
     },
     extend: {
       colors: {
-        "primary": "#0032a0",
-        "black": "#1d1e1c",
-        "gray": "#8e8e8e",
-        "dark": "#1d1e1c"
+        primary: "#0032a0",
+        black: "#1d1e1c",
+        gray: "#f1f1f1",
+        dark: "#1d1e1c",
+        "unorganic-green": "#d3f985",
+        "sky-blue": "#a6e8f6",
+        "shiny-pink": "#fcbedc",
+        "almost-orange": "#fbc899",
       },
     },
   },
-}
+};
 
 const fullConfig = resolveConfig(config);
 const { colors } = fullConfig.theme;
@@ -37,10 +41,10 @@ config.plugins = [
           primary: {
             DEFAULT: (colors as any).primary,
           },
-        }
-      }
-    }
-  })
+        },
+      },
+    },
+  }),
 ];
 
 export default config;

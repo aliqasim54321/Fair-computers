@@ -1,9 +1,3 @@
-import Image from "next/image";
+import Home from "@/app/home";
 
-export default function Home() {
-  return (
-    <div>
-      Home
-    </div>
-  );
-}
+export default Home;

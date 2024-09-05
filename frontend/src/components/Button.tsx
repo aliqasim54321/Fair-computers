@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { Button as BaseButton, extendVariants } from '@nextui-org/react';
+import { Button as BaseButton, extendVariants } from "@nextui-org/react";
 
 const Button = extendVariants(BaseButton, {
   variants: {
