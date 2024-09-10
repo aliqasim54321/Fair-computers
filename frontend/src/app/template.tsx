@@ -12,11 +12,31 @@ import {
   Link,
   Input,
 } from "@nextui-org/react";
+import { usePathname } from "next/navigation";
 import Button from "@/components/Button";
 import "swiper/css";
 
+const ITEMS = [
+  {
+    name: "Home",
+    link: "/",
+  },
+  {
+    name: "About",
+    link: "/about",
+  },
+  {
+    name: "Services",
+    link: "/services",
+  },
+  {
+    name: "Careers",
+    link: "/career",
+  },
+];
+
 export default function Template({ children }: { children: React.ReactNode }) {
-  const menuItems = ["Home", "About", "Services", "Careers"];
+  const pathname = usePathname();
 
   return (
     <>
@@ -42,14 +62,18 @@ export default function Template({ children }: { children: React.ReactNode }) {
               Fair Computers
             </div>
           </NavbarBrand>
-          {menuItems.map((item, index) => (
-            <NavbarItem key={`${item}-${index}`}>
+          {ITEMS.map((i, idx) => (
+            <NavbarItem
+              className={`${i.link === pathname ? "active" : ""}`}
+              key={idx}
+            >
               <Link
                 className="font-general-sans font-semibold text-sm"
+                title={i.name}
                 color="foreground"
-                href="#"
+                href={i.link}
               >
-                {item}
+                {i.name}
               </Link>
             </NavbarItem>
           ))}
@@ -69,10 +93,16 @@ export default function Template({ children }: { children: React.ReactNode }) {
         </NavbarContent>
 
         <NavbarMenu>
-          {menuItems.map((item, index) => (
-            <NavbarMenuItem key={`${item}-${index}`}>
-              <Link className="w-full" color="foreground" href="#" size="lg">
-                {item}
+          {ITEMS.map((i, idx) => (
+            <NavbarMenuItem key={idx}>
+              <Link
+                title={i.name}
+                className={`w-full ${i.link === pathname ? "active" : ""}`}
+                color="foreground"
+                href={i.link}
+                size="lg"
+              >
+                {i.name}
               </Link>
             </NavbarMenuItem>
           ))}
