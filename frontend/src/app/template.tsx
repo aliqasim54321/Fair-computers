@@ -31,7 +31,7 @@ const ITEMS = [
   },
   {
     name: "Careers",
-    link: "/career",
+    link: "/careers",
   },
 ];
 
@@ -42,7 +42,22 @@ export default function Template({ children }: { children: React.ReactNode }) {
     <>
       <Navbar maxWidth="xl" className="dark bg-primary" height="80px">
         <NavbarContent className="sm:hidden !grow-0" justify="start">
-          <NavbarMenuToggle className="text-white" />
+          <NavbarMenuToggle
+            className="text-white"
+            icon={() => (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  fill="currentColor"
+                  d="M3 18v-2h18v2zm0-5v-2h18v2zm0-5V6h18v2z"
+                />
+              </svg>
+            )}
+          />
         </NavbarContent>
 
         <NavbarContent className="sm:hidden pr-3" justify="start">
@@ -63,12 +78,9 @@ export default function Template({ children }: { children: React.ReactNode }) {
             </div>
           </NavbarBrand>
           {ITEMS.map((i, idx) => (
-            <NavbarItem
-              className={`${i.link === pathname ? "active" : ""}`}
-              key={idx}
-            >
+            <NavbarItem key={idx}>
               <Link
-                className="font-general-sans font-semibold text-sm"
+                className={`font-general-sans font-semibold text-sm ${i.link === pathname ? "text-gray" : ""}`}
                 title={i.name}
                 color="foreground"
                 href={i.link}
@@ -97,7 +109,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
             <NavbarMenuItem key={idx}>
               <Link
                 title={i.name}
-                className={`w-full ${i.link === pathname ? "active" : ""}`}
+                className={`w-full ${i.link === pathname ? "text-primary" : ""}`}
                 color="foreground"
                 href={i.link}
                 size="lg"

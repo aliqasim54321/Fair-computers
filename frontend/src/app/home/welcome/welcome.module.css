@@ -1,5 +1,7 @@
 .welcome {
-  background-image: url(https://dummyimage.com/1280x687/000/292930&text=fullx687);
+  background-image: linear-gradient(rgba(0, 0, 0, 0.62), rgba(0, 0, 0, 0.62)), url("https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg");
+  background-size: cover;
+  background-position: top center;
   width: 100%;
   height: 687px;
 }
