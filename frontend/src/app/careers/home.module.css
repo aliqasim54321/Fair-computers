@@ -1,13 +1,3 @@
-.highlight {
-  width: 48px;
-  height: 50px;
-}
-
-.highlight > svg {
-  position: absolute;
-  z-index: 1;
-}
-
 .highlight::after {
   width: 36px;
   height: 36px;
@@ -15,5 +5,5 @@
   content: "";
   position: absolute;
   bottom: 0;
-  z-index: 0;
+  z-index: -1;
 }

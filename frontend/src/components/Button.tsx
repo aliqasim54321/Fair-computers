@@ -6,6 +6,7 @@ const Button = extendVariants(BaseButton, {
   variants: {
     color: {
       light: "bg-white text-dark",
+      gray: "bg-gray text-dark",
     },
   },
   defaultVariants: {

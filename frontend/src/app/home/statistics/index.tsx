@@ -1,4 +1,4 @@
-import styles from "../home.module.css";
+import styles from "./statistics.module.css";
 
 export default function Statistics() {
   return (
@@ -13,33 +13,33 @@ export default function Statistics() {
         <div className="grid grid-cols-2 gap-10 text-dark">
           <div>
             <div
-              className={`inline-block mb-2 text-5xl font-bold ${styles.highlight} after:right-10 after:bg-unorganic-green relative`}
+              className={`${styles.highlight} inline-block mb-2 text-5xl font-bold after:right-10 after:bg-unorganic-green relative`}
             >
-              240%
+              <div className="inherit z-[1]">240%</div>
             </div>
             <div className="text-sm font-general-sans">Productivity Growth</div>
           </div>
           <div>
             <div
-              className={`inline-block mb-2 text-5xl font-bold ${styles.highlight} after:right-10 after:bg-sky-blue relative`}
+              className={`${styles.highlight} inline-block mb-2 text-5xl font-bold after:right-10 after:bg-sky-blue relative`}
             >
-              99%
+              <div className="inherit z-[1]">99%</div>
             </div>
             <div className="text-sm font-general-sans">Output Efficacy</div>
           </div>
           <div>
             <div
-              className={`inline-block mb-2 text-5xl font-bold ${styles.highlight} after:right-10 after:bg-shiny-pink relative`}
+              className={`${styles.highlight} inline-block mb-2 text-5xl font-bold after:right-10 after:bg-shiny-pink relative`}
             >
-              50+
+              <div className="inherit z-[1]">50+</div>
             </div>
             <div className="text-sm font-general-sans">Happy Partners</div>
           </div>
           <div>
             <div
-              className={`inline-block mb-2 text-5xl font-bold ${styles.highlight} after:right-10 after:bg-almost-orange relative`}
+              className={`${styles.highlight} inline-block mb-2 text-5xl font-bold after:right-10 after:bg-almost-orange relative`}
             >
-              100%
+              <div className="inherit z-[1]">100%</div>
             </div>
             <div className="text-sm font-general-sans">Client Retention</div>
           </div>

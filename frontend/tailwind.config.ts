@@ -7,12 +7,13 @@ const config: Config = {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}"
+    "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
   darkMode: "class",
   theme: {
     fontFamily: {
       "general-sans": ["General Sans", "Arial", "sans-serif"],
+      manrope: ["Manrope", "Arial", "sans-serif"],
     },
     extend: {
       colors: {
@@ -20,6 +21,7 @@ const config: Config = {
         black: "#1d1e1c",
         gray: "#f1f1f1",
         dark: "#1d1e1c",
+        "light-gray": "#ececec",
         "powerful-gray": "#8e8e8e",
         "unorganic-green": "#d3f985",
         "sky-blue": "#a6e8f6",

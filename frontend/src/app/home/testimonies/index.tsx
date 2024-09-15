@@ -35,7 +35,7 @@ export default function Testimonies() {
         {ITEMS.map((i, idx) => (
           <div
             key={idx}
-            className="text-center flex flex-col text-dark bg-gray p-8 rounded-3xl font-general-sans"
+            className="text-center flex flex-col text-dark bg-white p-8 rounded-3xl font-general-sans"
           >
             <Image
               classNames={{

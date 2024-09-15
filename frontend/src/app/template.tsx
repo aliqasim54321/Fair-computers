@@ -80,7 +80,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
           {ITEMS.map((i, idx) => (
             <NavbarItem key={idx}>
               <Link
-                className={`font-general-sans font-semibold text-sm ${i.link === pathname ? "text-gray" : ""}`}
+                className={`font-general-sans font-semibold text-sm ${i.link === pathname ? "text-powerful-gray" : ""}`}
                 title={i.name}
                 color="foreground"
                 href={i.link}

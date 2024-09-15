@@ -1,0 +1,7 @@
+.welcome {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.72)), url("https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg");
+  background-size: cover;
+  background-position: top center;
+  width: 100%;
+  height: 577px;
+}
