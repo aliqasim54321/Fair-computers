@@ -41,7 +41,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Navbar maxWidth="xl" className="dark bg-primary" height="80px">
-        <NavbarContent className="sm:hidden !grow-0" justify="start">
+        <NavbarContent className="md:hidden !grow-0" justify="start">
           <NavbarMenuToggle
             className="text-white"
             icon={() => (
@@ -60,7 +60,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
           />
         </NavbarContent>
 
-        <NavbarContent className="sm:hidden pr-3" justify="start">
+        <NavbarContent className="md:hidden pr-3" justify="start">
           <NavbarBrand>
             <div className="font-extrabold text-4xl text-foreground">
               Fair Computers
@@ -68,12 +68,9 @@ export default function Template({ children }: { children: React.ReactNode }) {
           </NavbarBrand>
         </NavbarContent>
 
-        <NavbarContent
-          className="hidden sm:flex sm:gap-6 md:gap-12"
-          justify="end"
-        >
+        <NavbarContent className="hidden md:flex gap-6 lg:gap-12" justify="end">
           <NavbarBrand>
-            <div className="font-extrabold text-4xl text-foreground">
+            <div className="font-extrabold text-2xl lg:text-4xl text-foreground">
               Fair Computers
             </div>
           </NavbarBrand>
@@ -92,14 +89,26 @@ export default function Template({ children }: { children: React.ReactNode }) {
         </NavbarContent>
 
         <NavbarContent justify="end" className="!grow-0 lg:pl-8">
-          <NavbarItem className="hidden lg:flex">
+          <NavbarItem className="hidden md:block">
             <Button
-              className="font-semibold font-general-sans py-6 px-6"
+              className="font-semibold border font-general-sans py-5 px-6"
               type="button"
               color="light"
               radius="full"
+              variant="bordered"
             >
-              Contact Us
+              Sign In
+            </Button>
+          </NavbarItem>
+          <NavbarItem className="hidden md:block">
+            <Button
+              className="font-semibold border font-general-sans py-5 px-6"
+              type="button"
+              color="black"
+              radius="full"
+              variant="black"
+            >
+              Sign Up
             </Button>
           </NavbarItem>
         </NavbarContent>
@@ -118,6 +127,26 @@ export default function Template({ children }: { children: React.ReactNode }) {
               </Link>
             </NavbarMenuItem>
           ))}
+          <NavbarMenuItem>
+            <Button
+              className="font-semibold border font-general-sans py-5 px-6 mr-4"
+              type="button"
+              color="light"
+              radius="full"
+              variant="bordered"
+            >
+              Sign In
+            </Button>
+            <Button
+              className="font-semibold border font-general-sans py-5 px-6"
+              type="button"
+              color="black"
+              radius="full"
+              variant="black"
+            >
+              Sign Up
+            </Button>
+          </NavbarMenuItem>
         </NavbarMenu>
       </Navbar>
 

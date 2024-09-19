@@ -8,7 +8,7 @@ const ITEMS = [
     name: "Senior Software Engineer",
     salary: "12$ - 18$ per hour",
     jobType: "Part-Time",
-    tags: [],
+    tags: ["Frontend Developer"],
     isLiked: true,
     company: {
       name: "Company name",

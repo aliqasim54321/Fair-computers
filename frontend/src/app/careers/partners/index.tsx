@@ -38,9 +38,12 @@ const ITEMS = [
 
 export default function Partners() {
   return (
-    <section className="container max-w-[1280px] mx-auto p-6 mb-8">
+    <section className="container max-w-[1024px] mx-auto p-6 mb-8">
+      <div className="md:hidden text-center text-xs text-powerful-gray font-semibold font-general-sans">
+        Find jobs from
+      </div>
       <div className="flex items-center">
-        <div className="w-[140px] text-xs text-powerful-gray font-semibold font-general-sans">
+        <div className="hidden md:block w-[140px] text-xs text-powerful-gray font-semibold font-general-sans">
           Find jobs from
         </div>
         <Swiper

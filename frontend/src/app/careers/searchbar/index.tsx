@@ -4,7 +4,7 @@ import { RadioGroup, Radio, CheckboxGroup, Checkbox } from "@nextui-org/react";
 
 export default function Searchbar() {
   return (
-    <form className="w-[192px]">
+    <form className="w-[192px] hidden md:block">
       <RadioGroup
         label="Date Posted"
         defaultValue="1"
