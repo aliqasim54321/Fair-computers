@@ -21,3 +21,13 @@
 .inherit {
   position: inherit;
 }
+
+section {
+  margin-bottom: 2rem;
+}
+
+@media only screen and (min-width: 1024px) {
+  section {
+    margin-bottom: 7rem;
+  }
+}

@@ -8,7 +8,7 @@ export default function Careers() {
     <>
       <Welcome />
       <Partners />
-      <section className="flex container max-w-[1280px] mx-auto p-6">
+      <section className="flex container max-w-[1280px] mx-auto px-6">
         <Searchbar />
         <List />
       </section>

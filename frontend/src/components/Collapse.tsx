@@ -39,12 +39,19 @@ export default function Collapse({
               alt={header.name}
             />
             <div className="flex justify-between items-center">
-              <div className="flex flex-col">
-                <div className="text-primary font-bold text-lg lg:text-2xl">
-                  {header.name}
-                </div>
-                <div className="text-sm lg:text-base font-bold">
-                  {header.company}
+              <div className="flex items-center gap-3">
+                <img
+                  className="hidden sm:block w-[80px] h-[80px] lg:hidden rounded-[32px] object-center	object-cover"
+                  src={header.logo}
+                  alt={header.name}
+                />
+                <div className="flex flex-col">
+                  <div className="text-primary font-bold text-lg lg:text-2xl">
+                    {header.name}
+                  </div>
+                  <div className="text-sm lg:text-base font-bold">
+                    {header.company}
+                  </div>
                 </div>
               </div>
               <Button
@@ -58,7 +65,7 @@ export default function Collapse({
                 {open ? "Less Details" : title}
               </Button>
             </div>
-            <div className="flex lg:hidden xl:flex gap-4">
+            <div className="flex lg:hidden xl:flex gap-4 flex-wrap">
               <div className="flex items-center rounded-md md:rounded-xl px-3 py-2 md:p-3 font-medium bg-gray text-sm md:text-md">
                 <i className="fa-solid fa-location-dot mr-2"></i>
                 {header.city}
@@ -73,16 +80,17 @@ export default function Collapse({
           </div>
         )}
         <Button
-          className="hidden lg:block w-[130px]"
+          className="hidden lg:block"
           variant={open ? "bordered" : "solid"}
           color={open ? "default" : "primary"}
           size="lg"
+          style={{ width: 130 }}
           onClick={() => setOpen(!open)}
         >
           {open ? "Less Details" : title}
         </Button>
       </div>
-      <div className="hidden lg:flex gap-4 mt-4 xl:hidden">
+      <div className="hidden lg:flex gap-4 mt-4 xl:hidden flex-wrap">
         <div className="flex items-center rounded-md md:rounded-xl px-3 py-2 md:p-3 font-medium bg-gray text-sm md:text-md">
           <i className="fa-solid fa-location-dot mr-2"></i>
           {header.city}
@@ -104,7 +112,7 @@ export default function Collapse({
         <div className="py-2">{children}</div>
         <div className="border-b border-light-gray"></div>
         <div className="flex flex-col md:flex-row justify-between pt-4 gap-4">
-          <div className="flex gap-2 md:gap-4 flex-wrap">
+          <div className="hidden lg:flex gap-2 md:gap-4 flex-wrap">
             {tags.map((i, idx) => (
               <div
                 key={idx}
@@ -114,8 +122,7 @@ export default function Collapse({
               </div>
             ))}
           </div>
-          <div className="lg:hidden border-b border-light-gray"></div>
-          <div className="flex gap-4 justify-between">
+          <div className="flex gap-4 justify-between flex-1 lg:flex-none">
             <div className="flex gap-2">
               <Button color="gray" size="lg" isIconOnly>
                 {isLiked ? (
