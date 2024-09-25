@@ -34,15 +34,7 @@ const ITEMS = [
     link: "/",
   },
   {
-    name: "About",
-    link: "/about",
-  },
-  {
-    name: "Services",
-    link: "/services",
-  },
-  {
-    name: "Contact Us",
+    name: "Postings",
     link: "/contact",
     children: [
       {
@@ -65,8 +57,16 @@ const ITEMS = [
     ],
   },
   {
+    name: "Services",
+    link: "/services",
+  },
+  {
     name: "Careers",
     link: "/careers",
+  },
+  {
+    name: "Contact Us",
+    link: "/about",
   },
 ];
 
@@ -235,7 +235,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
                   {i.name}
                 </Link>
               </NavbarItem>
-            )
+            ),
           )}
         </NavbarContent>
 
@@ -304,7 +304,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
                   {i.name}
                 </Link>
               </NavbarMenuItem>
-            )
+            ),
           )}
           <NavbarMenuItem>
             <Button

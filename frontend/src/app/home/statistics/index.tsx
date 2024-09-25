@@ -47,6 +47,7 @@ export default function Statistics() {
       </div>
       <div className="flex">
         <img
+          alt=""
           className="rounded-3xl"
           src="https://dummyimage.com/616x640/000/fff"
         />

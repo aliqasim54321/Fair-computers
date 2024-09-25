@@ -91,8 +91,8 @@ export default function Form() {
           </Button>
         </div>
         <div className="text-powerful-gray font-open-sans px-4">
-          Note: Once you've created your company profile, Fair Computers will
-          review and approve it to ensure quality and authenticity. You’ll
+          Note: Once you&#39;ve created your company profile, Fair Computers
+          will review and approve it to ensure quality and authenticity. You’ll
           receive an email confirmation at the provided email address when your
           profile is approved and ready for posting jobs
         </div>

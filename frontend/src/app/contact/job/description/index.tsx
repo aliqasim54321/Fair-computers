@@ -11,7 +11,7 @@ export default function Description() {
         <div className="text-sm	font-general-sans">
           Fill out the details below to create a job posting that attracts the
           best candidates. Provide as much information as possible to help job
-          seekers understand the role and your company's expectations.
+          seekers understand the role and your company&#39;s expectations.
         </div>
       </div>
     </section>

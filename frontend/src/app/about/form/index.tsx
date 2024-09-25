@@ -55,25 +55,12 @@ export default function Form() {
       </div>
       <form className="flex flex-col flex-1 gap-10 border-1 border-dark p-10 rounded-lg">
         <div className="flex gap-10">
-          <Input
-            variant="rectangle"
-            label="First Name"
-          />
-          <Input
-            variant="rectangle"
-            label="Last Name"
-          />
+          <Input variant="rectangle" label="First Name" />
+          <Input variant="rectangle" label="Last Name" />
         </div>
         <div className="flex gap-10">
-          <Input
-            variant="rectangle"
-            label="Phone"
-          />
-          <Input
-            variant="rectangle"
-            type="text"
-            label="Email"
-          />
+          <Input variant="rectangle" label="Phone" />
+          <Input variant="rectangle" type="text" label="Email" />
         </div>
         <Textarea
           variant="rectangle"

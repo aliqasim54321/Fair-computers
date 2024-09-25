@@ -12,8 +12,8 @@ import Button from "@/components/Button";
 const Modal = ({
   open = false,
   text,
-  okText = 'Ok',
-  closeText = 'Close',
+  okText = "Ok",
+  closeText = "Close",
   closable = true,
   content,
   onChange,
@@ -27,12 +27,12 @@ const Modal = ({
   onChange?: (isOpen: boolean) => void;
 }) => {
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure({
-    onChange
+    onChange,
   });
 
   React.useEffect(() => {
     open ? onOpen() : onClose();
-  }, [open])
+  }, [open]); // eslint-disable-line
 
   return (
     <>
@@ -52,14 +52,16 @@ const Modal = ({
           <ModalHeader className="flex flex-col gap-1"></ModalHeader>
           <ModalBody>{content ? content : <p>{text}</p>}</ModalBody>
           <ModalFooter>
-            {
-              closable ? (
-                <Button color="primary" variant="bordered" onPress={onClose}>
-                  {closeText}
-                </Button>
-              ) : null
-            }
-            <Button className="font-general-sans" color="primary" onPress={onClose}>
+            {closable ? (
+              <Button color="primary" variant="bordered" onPress={onClose}>
+                {closeText}
+              </Button>
+            ) : null}
+            <Button
+              className="font-general-sans"
+              color="primary"
+              onPress={onClose}
+            >
               {okText}
             </Button>
           </ModalFooter>

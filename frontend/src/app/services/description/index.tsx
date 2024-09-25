@@ -17,6 +17,7 @@ export default function Description() {
       </div>
       <div className="flex flex-col flex-1">
         <img
+          alt=""
           className="rounded-3xl"
           src="https://dummyimage.com/616x420/000/fff"
         />
