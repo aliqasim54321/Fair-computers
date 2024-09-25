@@ -36,7 +36,7 @@ const ITEMS = [
 
 export default function Questions() {
   return (
-    <section className="container max-w-[1280px] mx-auto p-6 flex flex-col gap-10 md:flex-row items-center mb-8">
+    <section className="container max-w-[1280px] mx-auto p-6 flex flex-col gap-10 md:flex-row items-center">
       <div className="flex flex-col gap-8 flex-1">
         <div className="text-primary text-xs font-semibold font-general-sans">
           Frequently Asked Questions

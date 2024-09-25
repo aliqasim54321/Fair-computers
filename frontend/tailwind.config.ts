@@ -14,6 +14,7 @@ const config: Config = {
     fontFamily: {
       "general-sans": ["General Sans", "Arial", "sans-serif"],
       manrope: ["Manrope", "Arial", "sans-serif"],
+      "open-sans": ["Open Sans", "sans-serif"],
     },
     extend: {
       colors: {

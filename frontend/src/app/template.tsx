@@ -9,11 +9,23 @@ import {
   NavbarMenuToggle,
   NavbarMenu,
   NavbarMenuItem,
+  DropdownItem,
+  DropdownTrigger,
+  Dropdown,
+  DropdownMenu,
   Link,
-  Input,
+  Accordion,
+  AccordionItem,
+  Modal,
+  ModalContent,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
+  Tabs,
+  Tab,
 } from "@nextui-org/react";
 import { usePathname } from "next/navigation";
-import Button from "@/components/Button";
+import { Button, Input } from "@/components";
 import "swiper/css";
 
 const ITEMS = [
@@ -30,16 +42,122 @@ const ITEMS = [
     link: "/services",
   },
   {
+    name: "Contact Us",
+    link: "/contact",
+    children: [
+      {
+        name: "Company",
+        link: "/contact/company",
+        description:
+          "Create or update your company profile to start posting job.",
+      },
+      {
+        name: "Job",
+        link: "/contact/job",
+        description: "Fill out the details below to create a job posting.",
+      },
+      {
+        name: "Profile",
+        link: "/contact/profile",
+        description:
+          "Create or update your personal profile, upload your resume, and start applying to job postings.",
+      },
+    ],
+  },
+  {
     name: "Careers",
     link: "/careers",
   },
 ];
 
 export default function Template({ children }: { children: React.ReactNode }) {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
   const pathname = usePathname();
 
   return (
     <>
+      <Modal
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        placement="center"
+        classNames={{
+          closeButton: "z-50",
+        }}
+        size="lg"
+      >
+        <ModalContent>
+          {(onClose) => (
+            <Tabs
+              aria-label="Tabs"
+              variant="underlined"
+              classNames={{
+                tabList:
+                  "gap-6 w-full relative rounded-none p-0 border-b border-divider",
+                cursor: "w-full bg-primary",
+                tab: "max-w-fit py-7 px-8 text-sm font-medium	font-open-sans !outline-0",
+                tabContent: "group-data-[selected=true]:text-primary",
+              }}
+            >
+              <Tab key="signin" title="Sign In">
+                <form>
+                  <ModalBody>
+                    <Input variant="default" label="Email" />
+                    <Input variant="default" type="password" label="Password" />
+                  </ModalBody>
+                  <ModalFooter>
+                    <Button
+                      className="border-1 font-general-sans"
+                      color="primary"
+                      variant="bordered"
+                      onPress={onClose}
+                    >
+                      Close
+                    </Button>
+                    <Button
+                      className="font-general-sans"
+                      color="primary"
+                      onPress={onClose}
+                    >
+                      Sign In
+                    </Button>
+                  </ModalFooter>
+                </form>
+              </Tab>
+              <Tab key="signup" title="Sign Up">
+                <ModalBody>
+                  <Input variant="default" label="Name" />
+                  <Input variant="default" label="Email" />
+                  <Input variant="default" type="password" label="Password" />
+                  <Input
+                    variant="default"
+                    type="password"
+                    label="Confirm Password"
+                  />
+                </ModalBody>
+                <ModalFooter>
+                  <Button
+                    className="border-1 font-general-sans"
+                    color="primary"
+                    variant="bordered"
+                    onPress={onClose}
+                  >
+                    Close
+                  </Button>
+                  <Button
+                    className="font-general-sans"
+                    color="primary"
+                    onPress={onClose}
+                  >
+                    Sign Up
+                  </Button>
+                </ModalFooter>
+              </Tab>
+            </Tabs>
+          )}
+        </ModalContent>
+      </Modal>
+
       <Navbar maxWidth="xl" className="dark bg-primary" height="80px">
         <NavbarContent className="md:hidden !grow-0" justify="start">
           <NavbarMenuToggle
@@ -60,91 +178,144 @@ export default function Template({ children }: { children: React.ReactNode }) {
           />
         </NavbarContent>
 
-        <NavbarContent className="md:hidden pr-3" justify="start">
+        <NavbarContent className="pr-3" justify="start">
           <NavbarBrand>
-            <div className="font-extrabold text-4xl text-foreground">
+            <div className="font-extrabold text-2xl lg:text-4xl text-foreground">
               Fair Computers
             </div>
           </NavbarBrand>
         </NavbarContent>
 
         <NavbarContent className="hidden md:flex gap-6 lg:gap-12" justify="end">
-          <NavbarBrand>
-            <div className="font-extrabold text-2xl lg:text-4xl text-foreground">
-              Fair Computers
-            </div>
-          </NavbarBrand>
-          {ITEMS.map((i, idx) => (
-            <NavbarItem key={idx}>
-              <Link
-                className={`font-general-sans font-semibold text-sm ${i.link === pathname ? "text-powerful-gray" : ""}`}
-                title={i.name}
-                color="foreground"
-                href={i.link}
-              >
-                {i.name}
-              </Link>
-            </NavbarItem>
-          ))}
+          {ITEMS.map((i, idx) =>
+            i?.children && i.children.length ? (
+              <Dropdown key={idx}>
+                <NavbarItem>
+                  <DropdownTrigger>
+                    <Button
+                      disableRipple
+                      className={`p-0 bg-transparent data-[hover=true]:bg-transparent font-general-sans font-semibold text-sm ${i.children.map((i) => i.link).indexOf(pathname) > -1 ? "text-powerful-gray" : ""}`}
+                    >
+                      {i.name}
+                    </Button>
+                  </DropdownTrigger>
+                </NavbarItem>
+                <DropdownMenu
+                  aria-label={i.name}
+                  className="w-[340px]"
+                  hideSelectedIcon
+                  itemClasses={{
+                    base: "gap-4",
+                    title: "font-general-sans font-semibold text-sm",
+                  }}
+                  selectedKeys={i.children
+                    .map((x, xid) => (x.link === pathname ? xid : ""))
+                    .toString()}
+                  selectionMode="single"
+                >
+                  {i.children.map((c, cdx) => (
+                    <DropdownItem
+                      href={c.link}
+                      key={cdx}
+                      description={c.description}
+                    >
+                      {c.name}
+                    </DropdownItem>
+                  ))}
+                </DropdownMenu>
+              </Dropdown>
+            ) : (
+              <NavbarItem key={idx}>
+                <Link
+                  className={`font-general-sans font-semibold text-sm ${i.link === pathname ? "text-powerful-gray" : ""}`}
+                  title={i.name}
+                  color="foreground"
+                  href={i.link}
+                >
+                  {i.name}
+                </Link>
+              </NavbarItem>
+            )
+          )}
         </NavbarContent>
 
         <NavbarContent justify="end" className="!grow-0 lg:pl-8">
           <NavbarItem className="hidden md:block">
             <Button
-              className="font-semibold border font-general-sans py-5 px-6"
+              className="font-semibold border font-general-sans p-6"
               type="button"
               color="light"
               radius="full"
               variant="bordered"
+              onPress={onOpen}
             >
-              Sign In
-            </Button>
-          </NavbarItem>
-          <NavbarItem className="hidden md:block">
-            <Button
-              className="font-semibold border font-general-sans py-5 px-6"
-              type="button"
-              color="black"
-              radius="full"
-              variant="black"
-            >
-              Sign Up
+              SIGN IN/UP
             </Button>
           </NavbarItem>
         </NavbarContent>
 
         <NavbarMenu>
-          {ITEMS.map((i, idx) => (
-            <NavbarMenuItem key={idx}>
-              <Link
-                title={i.name}
-                className={`w-full ${i.link === pathname ? "text-primary" : ""}`}
-                color="foreground"
-                href={i.link}
-                size="lg"
+          {ITEMS.map((i, idx) =>
+            i?.children && i.children.length ? (
+              <Accordion
+                key={idx}
+                variant="splitted"
+                className="p-0"
+                defaultExpandedKeys={
+                  i.children.map((i) => i.link).indexOf(pathname) > -1
+                    ? "0"
+                    : ""
+                }
               >
-                {i.name}
-              </Link>
-            </NavbarMenuItem>
-          ))}
+                <AccordionItem
+                  key={0}
+                  aria-label={i.name}
+                  title={i.name}
+                  classNames={{
+                    base: "p-0 rounded-none shadow-none bg-transparent",
+                    trigger: "p-0",
+                    titleWrapper: "flex-none",
+                    indicator:
+                      "rotate-[270deg] data-[open=true]:-rotate-[-90deg]",
+                  }}
+                >
+                  {i.children.map((c, cdx) => (
+                    <Link
+                      key={cdx}
+                      className={`w-full text-large no-underline hover:opacity-80 ml-3 ${cdx === i.children.length - 1 ? "" : "mb-2"} ${c.link === pathname ? "text-primary" : ""}`}
+                      title={c.name}
+                      color="foreground"
+                      href={c.link}
+                    >
+                      {c.name}
+                    </Link>
+                  ))}
+                </AccordionItem>
+              </Accordion>
+            ) : (
+              <NavbarMenuItem key={idx}>
+                <Link
+                  title={i.name}
+                  className={`w-full ${i.link === pathname ? "text-primary" : ""}`}
+                  color="foreground"
+                  href={i.link}
+                  size="lg"
+                >
+                  {i.name}
+                </Link>
+              </NavbarMenuItem>
+            )
+          )}
           <NavbarMenuItem>
             <Button
-              className="font-semibold border font-general-sans py-5 px-6 mr-4"
+              className="font-semibold border font-general-sans p-6"
               type="button"
               color="light"
               radius="full"
               variant="bordered"
+              onPress={onOpen}
             >
-              Sign In
-            </Button>
-            <Button
-              className="font-semibold border font-general-sans py-5 px-6"
-              type="button"
-              color="black"
-              radius="full"
-              variant="black"
-            >
-              Sign Up
+              SIGN IN/UP
             </Button>
           </NavbarMenuItem>
         </NavbarMenu>

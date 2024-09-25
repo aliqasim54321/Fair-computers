@@ -1,4 +1,4 @@
-import Button from "@/components/Button";
+import { Button, Input, Textarea } from "@/components";
 
 export default function Form() {
   return (
@@ -55,36 +55,29 @@ export default function Form() {
       </div>
       <form className="flex flex-col flex-1 gap-10 border-1 border-dark p-10 rounded-lg">
         <div className="flex gap-10">
-          <input
-            className="w-full border-1 border-powerful-gray px-6 py-3"
-            type="text"
-            name="firstname"
-            placeholder="First Name"
+          <Input
+            variant="rectangle"
+            label="First Name"
           />
-          <input
-            className="w-full border-1 border-powerful-gray px-6 py-3"
-            type="text"
-            name="lastname"
-            placeholder="Last Name"
+          <Input
+            variant="rectangle"
+            label="Last Name"
           />
         </div>
         <div className="flex gap-10">
-          <input
-            className="w-full border-1 border-powerful-gray px-6 py-3"
-            type="text"
-            name="phone"
-            placeholder="Phone Number"
+          <Input
+            variant="rectangle"
+            label="Phone"
           />
-          <input
-            className="w-full border-1 border-powerful-gray px-6 py-3"
+          <Input
+            variant="rectangle"
             type="text"
-            name="email"
-            placeholder="Email"
+            label="Email"
           />
         </div>
-        <textarea
-          className="w-full border-1 border-powerful-gray px-6 py-3"
-          name="message"
+        <Textarea
+          variant="rectangle"
+          label="Message"
           placeholder="Type your message here"
         />
         <Button

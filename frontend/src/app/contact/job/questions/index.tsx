@@ -54,12 +54,14 @@ export default function Questions() {
         <Accordion
           isCompact
           dividerProps={{ className: "w-[136px] border-dark" }}
+          as="div"
         >
           {ITEMS.map((i, idx) => (
             <AccordionItem
               key={idx}
               aria-label={i.title}
               title={i.title}
+              as="div"
               classNames={{
                 heading: "font-semibold	text-sm",
                 content: "text-sm",
