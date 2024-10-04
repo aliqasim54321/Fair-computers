@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap,?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Neue Regrade';
+  src: url('/fonts/neue-regrade.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'General Sans';
+  src: url('/fonts/general-sans.ttf') format('truetype');
+}
+
+* {
+  font-family: 'Neue Regrade', 'Arial', 'sans-serif';
+}
+
+.inherit {
+  position: inherit;
+}
+
+main > section {
+  margin-bottom: 2rem;
+}
+
+@media only screen and (min-width: 1024px) {
+  main > section {
+    margin-bottom: 7rem;
+  }
+}
