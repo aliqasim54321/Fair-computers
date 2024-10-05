@@ -1,6 +1,27 @@
+"use client";
+
+import React from "react";
 import { Button, Input, Textarea } from "@/components";
+import { useAsyncFn } from "@/hooks";
 
 export default function Form() {
+  const { mutate } = useAsyncFn<any>("/contact", "POST", undefined, {
+    onSuccess: (result) => {
+      alert(
+        "We have received your message and will contact you within 24 hours.",
+      );
+    },
+  });
+
+  const handleSubmit = React.useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      const formData = new FormData(e.target as HTMLFormElement);
+      mutate(Object.fromEntries(formData));
+    },
+    [] //eslint-disable-line
+  );
+
   return (
     <section className="container max-w-[1280px] mx-auto p-6 flex flex-col gap-10 md:flex-row items-center mb-8">
       <div className="flex flex-col gap-8 flex-1">
@@ -53,21 +74,27 @@ export default function Form() {
           </div>
         </div>
       </div>
-      <form className="flex flex-col flex-1 gap-10 border-1 border-dark p-10 rounded-lg">
+      <form
+        name="contact"
+        className="flex flex-col flex-1 gap-10 border-1 border-dark p-10 rounded-lg"
+        onSubmit={handleSubmit}
+      >
         <div className="flex gap-10">
-          <Input variant="rectangle" label="First Name" />
-          <Input variant="rectangle" label="Last Name" />
+          <Input name="firstName" variant="rectangle" label="First Name" />
+          <Input name="lastName" variant="rectangle" label="Last Name" />
         </div>
         <div className="flex gap-10">
-          <Input variant="rectangle" label="Phone" />
-          <Input variant="rectangle" type="text" label="Email" />
+          <Input name="phone" variant="rectangle" label="Phone" />
+          <Input name="email" variant="rectangle" type="text" label="Email" />
         </div>
         <Textarea
+          name="message"
           variant="rectangle"
           label="Message"
           placeholder="Type your message here"
         />
         <Button
+          type="submit"
           color="primary"
           radius="full"
           className="font-semibold w-fit m-auto"

@@ -1,5 +1,11 @@
 import type { Metadata } from "next";
 import { Providers } from "./providers";
+import dynamic from "next/dynamic";
+
+const PublicTemplate = dynamic(() => import("../components/PublicTemplate"), {
+  ssr: false,
+});
+
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -20,7 +26,9 @@ export default function RootLayout({
           type="text/css"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
         />
-        <Providers>{children}</Providers>
+        <Providers>
+          <PublicTemplate>{children}</PublicTemplate>
+        </Providers>
       </body>
     </html>
   );

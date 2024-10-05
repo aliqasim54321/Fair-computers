@@ -23,9 +23,13 @@ import {
   useDisclosure,
   Tabs,
   Tab,
+  UserProps,
+  ModalHeader,
 } from "@nextui-org/react";
 import { usePathname } from "next/navigation";
 import { Button, Input } from "@/components";
+import { setSessionStorageItem, useAsyncFn } from "@/hooks";
+import { useApp } from "@/providers/AppProvider";
 import "swiper/css";
 
 const ITEMS = [
@@ -35,25 +39,25 @@ const ITEMS = [
   },
   {
     name: "Postings",
-    link: "/contact",
+    link: "/postings",
     children: [
       {
         name: "Company",
-        link: "/contact/company",
+        link: "/postings/company",
         description:
           "Create or update your company profile to start posting job.",
       },
       {
         name: "Job",
-        link: "/contact/job",
+        link: "/postings/job",
         description: "Fill out the details below to create a job posting.",
       },
-      {
-        name: "Profile",
-        link: "/contact/profile",
-        description:
-          "Create or update your personal profile, upload your resume, and start applying to job postings.",
-      },
+      // {
+      //   name: "Profile",
+      //   link: "/contact/profile",
+      //   description:
+      //     "Create or update your personal profile, upload your resume, and start applying to job postings.",
+      // },
     ],
   },
   {
@@ -66,97 +70,265 @@ const ITEMS = [
   },
   {
     name: "Contact Us",
-    link: "/about",
+    link: "/contact",
   },
 ];
 
 export default function Template({ children }: { children: React.ReactNode }) {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
-
   const pathname = usePathname();
+
+  const UserModal = useDisclosure();
+
+  const ProfileModal = useDisclosure();
+
+  const { setUser, user, logout } = useApp();
+
+  const { mutate: signIn } = useAsyncFn<UserProps>(
+    "/auth/signin",
+    "POST",
+    undefined,
+    {
+      onSuccess: (result) => {
+        const profile = {
+          token: result.token,
+          name: result.user.name,
+          email: result.user.email,
+        };
+        setUser(profile);
+        setSessionStorageItem("user", profile);
+        UserModal.onClose();
+      },
+    },
+  );
+
+  const { mutate: signUp } = useAsyncFn("/auth/signup", "POST", undefined, {
+    onSuccess: (result) => {
+      const profile = {
+        token: result.token,
+        name: result.user.name,
+        email: result.user.email,
+      };
+      setUser(profile);
+      setSessionStorageItem("user", profile);
+      UserModal.onClose();
+    },
+  });
+
+  const handleSignin = React.useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      const formData = new FormData(e.target as HTMLFormElement);
+      signIn(Object.fromEntries(formData));
+    },
+    [] //eslint-disable-line
+  );
+
+  const handleSignup = React.useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      const formData = new FormData(e.target as HTMLFormElement);
+      signUp(Object.fromEntries(formData));
+    },
+    [] //eslint-disable-line
+  );
+
+  const handleUpdateProfile = React.useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      // const formData = new FormData(e.target as HTMLFormElement);
+      // signUp(Object.fromEntries(formData));
+    },
+    [] //eslint-disable-line
+  );
 
   return (
     <>
-      <Modal
-        isOpen={isOpen}
-        onOpenChange={onOpenChange}
-        placement="center"
-        classNames={{
-          closeButton: "z-50",
-        }}
-        size="lg"
-      >
-        <ModalContent>
-          {(onClose) => (
-            <Tabs
-              aria-label="Tabs"
-              variant="underlined"
-              classNames={{
-                tabList:
-                  "gap-6 w-full relative rounded-none p-0 border-b border-divider",
-                cursor: "w-full bg-primary",
-                tab: "max-w-fit py-7 px-8 text-sm font-medium	font-open-sans !outline-0",
-                tabContent: "group-data-[selected=true]:text-primary",
-              }}
-            >
-              <Tab key="signin" title="Sign In">
-                <form>
-                  <ModalBody>
-                    <Input variant="default" label="Email" />
-                    <Input variant="default" type="password" label="Password" />
-                  </ModalBody>
-                  <ModalFooter>
-                    <Button
-                      className="border-1 font-general-sans"
-                      color="primary"
-                      variant="bordered"
-                      onPress={onClose}
-                    >
-                      Close
-                    </Button>
-                    <Button
-                      className="font-general-sans"
-                      color="primary"
-                      onPress={onClose}
-                    >
-                      Sign In
-                    </Button>
-                  </ModalFooter>
-                </form>
-              </Tab>
-              <Tab key="signup" title="Sign Up">
-                <ModalBody>
-                  <Input variant="default" label="Name" />
-                  <Input variant="default" label="Email" />
-                  <Input variant="default" type="password" label="Password" />
-                  <Input
-                    variant="default"
-                    type="password"
-                    label="Confirm Password"
-                  />
-                </ModalBody>
-                <ModalFooter>
-                  <Button
-                    className="border-1 font-general-sans"
-                    color="primary"
-                    variant="bordered"
-                    onPress={onClose}
-                  >
-                    Close
-                  </Button>
-                  <Button
-                    className="font-general-sans"
-                    color="primary"
-                    onPress={onClose}
-                  >
-                    Sign Up
-                  </Button>
-                </ModalFooter>
-              </Tab>
-            </Tabs>
-          )}
-        </ModalContent>
-      </Modal>
+      {ProfileModal.isOpen && (
+        <Modal
+          isOpen={ProfileModal.isOpen}
+          onOpenChange={ProfileModal.onOpenChange}
+          placement="center"
+          classNames={{
+            closeButton: "z-50",
+          }}
+          size="lg"
+        >
+          <ModalContent>
+            <form name="profile" onSubmit={handleUpdateProfile}>
+              <ModalHeader>Profile</ModalHeader>
+              <ModalBody>
+                <Input
+                  required
+                  isRequired
+                  variant="default"
+                  name="name"
+                  label="Name"
+                  defaultValue={user?.name}
+                />
+                <Input
+                  disabled
+                  isDisabled
+                  variant="default"
+                  name="email"
+                  label="Email"
+                  defaultValue={user?.email}
+                />
+                <Input
+                  required
+                  isRequired
+                  variant="default"
+                  name="password"
+                  type="password"
+                  label="Password"
+                />
+                <Input
+                  required
+                  isRequired
+                  variant="default"
+                  type="password"
+                  label="Confirm Password"
+                />
+              </ModalBody>
+              <ModalFooter>
+                <Button
+                  className="border-1 font-general-sans"
+                  color="primary"
+                  variant="bordered"
+                  onPress={ProfileModal.onClose}
+                >
+                  Close
+                </Button>
+                <Button
+                  className="font-general-sans"
+                  color="primary"
+                  type="submit"
+                >
+                  Update
+                </Button>
+              </ModalFooter>
+            </form>
+          </ModalContent>
+        </Modal>
+      )}
+
+      {UserModal.isOpen && (
+        <Modal
+          isOpen={UserModal.isOpen}
+          onOpenChange={UserModal.onOpenChange}
+          placement="center"
+          classNames={{
+            closeButton: "z-50",
+          }}
+          size="lg"
+        >
+          <ModalContent>
+            {(onClose) => (
+              <Tabs
+                aria-label="Tabs"
+                variant="underlined"
+                classNames={{
+                  tabList:
+                    "gap-6 w-full relative rounded-none p-0 border-b border-divider",
+                  cursor: "w-full bg-primary",
+                  tab: "max-w-fit py-7 px-8 text-sm font-medium	font-open-sans !outline-0",
+                  tabContent: "group-data-[selected=true]:text-primary",
+                }}
+              >
+                <Tab key="signin" title="Sign In">
+                  <form name="signin" onSubmit={handleSignin}>
+                    <ModalBody>
+                      <Input
+                        required
+                        isRequired
+                        variant="default"
+                        name="email"
+                        label="Email"
+                      />
+                      <Input
+                        required
+                        isRequired
+                        variant="default"
+                        type="password"
+                        name="password"
+                        label="Password"
+                      />
+                    </ModalBody>
+                    <ModalFooter>
+                      <Button
+                        className="border-1 font-general-sans"
+                        color="primary"
+                        variant="bordered"
+                        onPress={onClose}
+                      >
+                        Close
+                      </Button>
+                      <Button
+                        className="font-general-sans"
+                        color="primary"
+                        type="submit"
+                      >
+                        Sign In
+                      </Button>
+                    </ModalFooter>
+                  </form>
+                </Tab>
+                <Tab key="signup" title="Sign Up">
+                  <form name="signup" onSubmit={handleSignup}>
+                    <ModalBody>
+                      <Input
+                        required
+                        isRequired
+                        variant="default"
+                        name="name"
+                        label="Name"
+                      />
+                      <Input
+                        required
+                        isRequired
+                        variant="default"
+                        name="email"
+                        label="Email"
+                      />
+                      <Input
+                        required
+                        isRequired
+                        variant="default"
+                        name="password"
+                        type="password"
+                        label="Password"
+                      />
+                      <Input
+                        required
+                        isRequired
+                        variant="default"
+                        type="password"
+                        label="Confirm Password"
+                      />
+                    </ModalBody>
+                    <ModalFooter>
+                      <Button
+                        className="border-1 font-general-sans"
+                        color="primary"
+                        variant="bordered"
+                        onPress={onClose}
+                      >
+                        Close
+                      </Button>
+                      <Button
+                        className="font-general-sans"
+                        color="primary"
+                        type="submit"
+                      >
+                        Sign Up
+                      </Button>
+                    </ModalFooter>
+                  </form>
+                </Tab>
+              </Tabs>
+            )}
+          </ModalContent>
+        </Modal>
+      )}
 
       <Navbar maxWidth="xl" className="dark bg-primary" height="80px">
         <NavbarContent className="md:hidden !grow-0" justify="start">
@@ -240,17 +412,40 @@ export default function Template({ children }: { children: React.ReactNode }) {
         </NavbarContent>
 
         <NavbarContent justify="end" className="!grow-0 lg:pl-8">
-          <NavbarItem className="hidden md:block">
-            <Button
-              className="font-semibold border font-general-sans p-6"
-              type="button"
-              color="light"
-              radius="full"
-              variant="bordered"
-              onPress={onOpen}
-            >
-              SIGN IN/UP
-            </Button>
+          <NavbarItem>
+            {user ? (
+              <Dropdown placement="bottom-end">
+                <DropdownTrigger>
+                  <Button
+                    type="button"
+                    color="light"
+                    radius="full"
+                    variant="bordered"
+                  >
+                    {user.name}
+                  </Button>
+                </DropdownTrigger>
+                <DropdownMenu aria-label="Profile Actions" variant="flat">
+                  <DropdownItem key="profile" onPress={ProfileModal.onOpen}>
+                    Profile
+                  </DropdownItem>
+                  <DropdownItem key="logout" color="danger" onPress={logout}>
+                    Sign Out
+                  </DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
+            ) : (
+              <Button
+                className="font-semibold border font-general-sans p-6"
+                type="button"
+                color="light"
+                radius="full"
+                variant="bordered"
+                onPress={UserModal.onOpen}
+              >
+                SIGN IN/UP
+              </Button>
+            )}
           </NavbarItem>
         </NavbarContent>
 
@@ -306,18 +501,6 @@ export default function Template({ children }: { children: React.ReactNode }) {
               </NavbarMenuItem>
             ),
           )}
-          <NavbarMenuItem>
-            <Button
-              className="font-semibold border font-general-sans p-6"
-              type="button"
-              color="light"
-              radius="full"
-              variant="bordered"
-              onPress={onOpen}
-            >
-              SIGN IN/UP
-            </Button>
-          </NavbarMenuItem>
         </NavbarMenu>
       </Navbar>
 
