@@ -3,7 +3,7 @@ POST http://localhost:3000/auth/signup
 Content-Type: application/json
 
 {
-  "name": "John2Doe1",
+  "name": "John2Doe122",
   "email": "john2@example.com",
   "password": "password1234"
 }
@@ -138,6 +138,49 @@ Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.doc
 
 < C:\Users\n01648753\Desktop\resume.docx
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### PUT Request to Update Profile (Form and File)
+PUT http://localhost:3000/profiles/670082972155ad8c4d9207b2
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="firstName"
+
+John
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="lastName"
+
+Doe
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="email"
+
+johndoe@example.com
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="phoneNumber"
+
+123-456-7890
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="bio"
+
+Updated Web Developer Bio
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="linkedInLink"
+
+https://linkedin.com/in/johndoe
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="resumeFile"; filename="resume_updated.docx"
+Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document
+
+< C:\Users\n01648753\Desktop\resume_updated.docx
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Get All Job Postings for Careers
+GET http://localhost:3000/careers
+Content-Type: application/json
+
+### Approve Job Posting
+PUT http://localhost:3000/admin/job-postings/67008de8ac391724f44a1b8f/approve
+Content-Type: application/json
 
 ### Download File
 GET http://localhost:3000/files/1727998902247-4c8a624a6624.pdf

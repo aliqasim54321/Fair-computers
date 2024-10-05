@@ -13,13 +13,16 @@ const companyProfileFileFilter = (req, file, cb) => {
     if (extname && mimetype) {
         return cb(null, true);
     } else {
-        cb('Error: Only JPEG and PNG images are allowed!');
+        cb(new Error('Error: Only JPEG and PNG images are allowed!'));
     }
 };
 
 export const uploadCompanyProfile = multer({
     storage: companyProfileStorage,
     fileFilter: companyProfileFileFilter,
+    limits: {
+        fileSize: 1024 * 1024 * 5, // File size of 5MB, adjust later
+    },
 });
 
 // 2. JobPosting Upload Configuration (restrict to pdf)
@@ -44,13 +47,16 @@ const jobPostingFileFilter = (req, file, cb) => {
     if (extname && mimetype) {
         return cb(null, true);
     } else {
-        cb('Error: Only PDF files are allowed!');
+        cb(new Error('Error: Only PDF files are allowed!'));
     }
 };
 
 export const uploadJobPosting = multer({
     storage: jobPostingStorage,
     fileFilter: jobPostingFileFilter,
+    limits: {
+        fileSize: 1024 * 1024 * 10, // File size of 10MB, adjust later
+    },
 });
 
 // 3. UserProfile Upload Configuration (restrict to pdf and docx)
@@ -72,11 +78,14 @@ const userProfileFileFilter = (req, file, cb) => {
     if (extname && mimetype) {
         return cb(null, true);
     } else {
-        cb('Error: Only PDF and DOCX files are allowed!');
+        cb(new Error('Error: Only PDF and DOCX files are allowed!'));
     }
 };
 
 export const uploadUserProfile = multer({
     storage: userProfileStorage,
     fileFilter: userProfileFileFilter,
+    limits: {
+        fileSize: 1024 * 1024 * 10, // File size of 10MB, adjust later
+    },
 });

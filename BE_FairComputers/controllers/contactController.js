@@ -1,6 +1,5 @@
 import { Contact } from '../models/Contact.js';
 
-
 export const createContact = async (req, res) => {
   try {
     const { firstName, lastName, phone, email, message } = req.body;

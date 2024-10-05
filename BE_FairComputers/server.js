@@ -4,10 +4,9 @@ import cors from 'cors';
 import { connectToDb } from './config/connectToDb.js';
 import { uploadCompanyProfile, uploadJobPosting, uploadUserProfile } from './config/multerConfig.js';
 import { createCompanyProfile } from './controllers/companyProfileController.js';
-import { createJobPosting, deleteJobPosting } from './controllers/jobPostingController.js';
-import { createUserProfile } from './controllers/userProfileController.js';
+import { createJobPosting, approveJobPosting, deleteJobPosting, listAllJobPostingsForCareers } from './controllers/jobPostingController.js';
+import { createUserProfile, updateUserProfile } from './controllers/userProfileController.js';
 import { createContact } from './controllers/contactController.js';
-import { fetchHome, fetchAbout, fetchServices, fetchCareers, createPage, updatePage, deletePage } from './controllers/pagesController.js';
 import { signUp, signIn } from './controllers/authController.js';
 import { authenticateToken } from './config/authMiddleware.js';
 import dotenv from 'dotenv';
@@ -42,26 +41,49 @@ connectToDb();
 
 // Routing
 
-// Routes for Pages (Home, About, Services, Careers)
-app.get('/home', fetchHome);           // Fetch home page data
-app.get('/about', fetchAbout);         // Fetch about page data
-app.get('/services', fetchServices);   // Fetch services page data
-app.get('/careers', fetchCareers);     // Fetch careers page data
+// Route to list all Job Postings for Careers
+app.get('/careers', listAllJobPostingsForCareers);
 
-// Routes for managing pages
-app.post('/pages', createPage);             // Create a new page
-app.put('/pages/:slug', updatePage);        // Update an existing page
-app.delete('/pages/:slug', deletePage);     // Delete a page
+// Approve job posting by admin
+app.put('/admin/job-postings/:id/approve', approveJobPosting);
 
 // Route to handle CompanyProfile uploads (with jpeg and png file type restriction)
-app.post('/company-profile', uploadCompanyProfile.single('companyLogo'), createCompanyProfile);
+app.post('/company-profile', uploadCompanyProfile.single('companyLogo'), (req, res) => {
+    // Check if a file was uploaded and its size
+    if (!req.file || req.file.size === 0) {
+        return res.status(400).json({ error: 'Uploaded file is empty (0KB).' });
+    }
+    createCompanyProfile(req, res);
+});
 
 // Route to handle JobPosting uploads (pdf file type restriction)
-app.post('/job-postings', uploadJobPosting.single('jobDescriptionFile'), createJobPosting);
+app.post('/job-postings', uploadJobPosting.single('jobDescriptionFile'), (req, res) => {
+    // Check if a file was uploaded and its size
+    if (!req.file || req.file.size === 0) {
+        return res.status(400).json({ error: 'Uploaded file is empty (0KB).' });
+    }
+    createJobPosting(req, res);
+});
+
 app.delete('/job-postings/:id', deleteJobPosting);  // Delete job posting and file from GridFS
 
 // Route to handle UserProfile uploads (with pdf and docx file type restriction)
-app.post('/profiles', uploadUserProfile.single('resumeFile'), createUserProfile);
+app.post('/profiles', uploadUserProfile.single('resumeFile'), (req, res) => {
+    // Check if a file was uploaded and its size
+    if (!req.file || req.file.size === 0) {
+        return res.status(400).json({ error: 'Uploaded file is empty (0KB).' });
+    }
+    createUserProfile(req, res);
+});
+
+// Route to update UserProfile (handles both form data and file upload)
+app.put('/profiles/:id', uploadUserProfile.single('resumeFile'), (req, res) => {
+    // Check if a file was uploaded and its size
+    if (req.file && req.file.size === 0) {
+        return res.status(400).json({ error: 'Uploaded file is empty (0KB).' });
+    }
+    updateUserProfile(req, res);
+});
 
 // Route to submit contact form
 app.post('/contact', createContact);
@@ -75,6 +97,7 @@ app.get('/protected-route', authenticateToken, (req, res) => {
     res.send('This is a protected route.');
 });
 
+// Route to retrieve files from GridFS
 app.get('/files/:filename', async (req, res) => {
     try {
         console.log(`Received request for file: ${req.params.filename}`);
