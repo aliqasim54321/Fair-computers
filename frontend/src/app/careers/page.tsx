@@ -6,26 +6,7 @@ import Partners from "./partners";
 import Searchbar from "./searchbar";
 import List, { JobProps } from "./list";
 import { useAsyncFn } from "@/hooks";
-
-export enum JOB_TYPE {
-  FullTime = "Full-time",
-  Contract = "Contract",
-  InternShip = "Internship",
-  PartTime = "Part-time",
-  Temporary = "Temporary",
-}
-
-export enum WORK_MODE {
-  OnSite = "On-site",
-  Remote = "Remote",
-  Hybrid = "Hybrid",
-}
-
-export interface FILTER {
-  datePosted: string;
-  jobType: JOB_TYPE[];
-  workMode: WORK_MODE[];
-}
+import { FILTER, JOB_TYPE, WORK_MODE } from "@/constants";
 
 export default function Careers() {
   const [filter, setFilter] = React.useState<FILTER>({
@@ -42,14 +23,14 @@ export default function Careers() {
 
   const { data, mutate, isLoading } = useAsyncFn<{ jobPostings: JobProps[] }>(
     "/careers",
-    "GET"
+    "GET",
   );
 
   const items = React.useMemo(() => {
     if (!data) return [];
     return data.jobPostings.filter(
       (i) =>
-        filter.jobType?.length ? filter.jobType.includes(i.jobType) : true
+        filter.jobType?.length ? filter.jobType.includes(i.jobType) : true,
       // && (filter.workMode?.length ? filter.workMode.includes(i.workMode) : true),
     );
   }, [data, filter]);

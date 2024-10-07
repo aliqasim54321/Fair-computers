@@ -2,7 +2,7 @@
 
 import React from "react";
 import { RadioGroup, Radio, CheckboxGroup, Checkbox } from "@nextui-org/react";
-import { FILTER, JOB_TYPE, WORK_MODE } from "../page";
+import { FILTER, JOB_TYPE, WORK_MODE } from "@/constants";
 
 export interface SearchbarProps {
   defaultFilter: FILTER;
@@ -15,8 +15,12 @@ export interface SearchbarProps {
 
 export default function Searchbar({ defaultFilter, onChange }: SearchbarProps) {
   const [datePosted, setDatePosted] = React.useState(defaultFilter.datePosted);
-  const [jobType, setJobType] = React.useState<string[] | JOB_TYPE[]>(defaultFilter.jobType);
-  const [workMode, setWorkMode] = React.useState<string[] | WORK_MODE[]>(defaultFilter.workMode);
+  const [jobType, setJobType] = React.useState<string[] | JOB_TYPE[]>(
+    defaultFilter.jobType,
+  );
+  const [workMode, setWorkMode] = React.useState<string[] | WORK_MODE[]>(
+    defaultFilter.workMode,
+  );
 
   React.useEffect(() => {
     onChange({

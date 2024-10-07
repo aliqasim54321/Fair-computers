@@ -1,7 +1,7 @@
 "use client";
 
 import Collapse from "@/components/Collapse";
-import { JOB_TYPE, WORK_MODE } from "../page";
+import { JOB_TYPE, WORK_MODE } from "@/constants";
 
 export interface JobProps {
   company: {

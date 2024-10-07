@@ -4,6 +4,7 @@ import Button from "@/components/Button";
 import { Select, SelectItem, Input } from "@nextui-org/react";
 import styles from "./welcome.module.css";
 import { RequestBody } from "@/hooks";
+import { JOB_TYPE } from "@/constants";
 
 export interface WelcomeProps {
   mutate: (options?: RequestBody) => void;
@@ -72,8 +73,7 @@ export default function Welcome({ mutate, loading }: WelcomeProps) {
             trigger: "rounded-lg",
           }}
         >
-          <SelectItem key="">-</SelectItem>
-          <SelectItem key={1}>Mississauga</SelectItem>
+          <SelectItem key="Mississauga">Mississauga</SelectItem>
         </Select>
         <Select
           name="jobType"
@@ -85,8 +85,9 @@ export default function Welcome({ mutate, loading }: WelcomeProps) {
             trigger: "rounded-lg",
           }}
         >
-          <SelectItem key="">-</SelectItem>
-          <SelectItem key={1}>Full-Time</SelectItem>
+          {Object.entries(JOB_TYPE).map(([key, value]) => (
+            <SelectItem key={key}>{value}</SelectItem>
+          ))}
         </Select>
       </form>
     </section>
