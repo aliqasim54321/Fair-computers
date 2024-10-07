@@ -2,11 +2,23 @@
 
 import React from "react";
 import { Button, Input, Textarea, Modal } from "@/components";
+import { useAsyncFn } from "@/hooks";
 
 export default function Form() {
   const [open, setOpen] = React.useState(false);
 
   const inputFile = React.useRef<HTMLInputElement | null>(null);
+
+  const { mutate, isLoading } = useAsyncFn<any>(
+    "/company-profile",
+    "POST",
+    undefined,
+    {
+      onSuccess: () => {
+        setOpen(true);
+      },
+    },
+  );
 
   const onFileButtonClick = () => {
     inputFile?.current?.click();
@@ -14,7 +26,8 @@ export default function Form() {
 
   const onFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setOpen(true);
+    const formData = new FormData(e.currentTarget);
+    mutate(Object.fromEntries(formData));
   };
 
   return (
@@ -30,27 +43,68 @@ export default function Form() {
         onSubmit={onFormSubmit}
         className="flex flex-col m-auto max-w-[700px] flex-1 gap-6 border-1 border-dark p-10 rounded-lg"
       >
-        <Input variant="rectangle" label="Company Name" />
+        <Input
+          isRequired
+          required
+          name="companyName"
+          variant="rectangle"
+          label="Company Name"
+        />
         <div className="flex gap-5">
-          <Input variant="rectangle" label="Industry" />
-          <Input variant="rectangle" type="url" label="Company Website" />
+          <Input
+            isRequired
+            required
+            name="industry"
+            variant="rectangle"
+            label="Industry"
+          />
+          <Input
+            isRequired
+            required
+            name="website"
+            variant="rectangle"
+            type="url"
+            label="Company Website"
+          />
         </div>
         <Textarea
+          isRequired
+          required
+          name="about"
           variant="rectangle"
           label="About"
           placeholder="Write briefly about your company"
         />
-        <Input variant="rectangle" label="Contact Person" />
+        <Input
+          isRequired
+          required
+          name="contactPerson"
+          variant="rectangle"
+          label="Contact Person"
+        />
         <div className="flex gap-5">
-          <Input variant="rectangle" label="Contact Email" />
-          <Input variant="rectangle" label="Contact Phone Number" />
+          <Input
+            isRequired
+            required
+            type="email"
+            name="contactEmail"
+            variant="rectangle"
+            label="Contact Email"
+          />
+          <Input
+            isRequired
+            required
+            name="contactPhoneNumber"
+            variant="rectangle"
+            label="Contact Phone Number"
+          />
         </div>
         <div className="flex justify-between items-center px-4">
           <div className="text-powerful-gray font-open-sans">
             Upload Company Logo (Jpeg, Png)
           </div>
           <input
-            name="company"
+            name="companyLogo"
             ref={inputFile}
             className="hidden"
             type="file"
@@ -77,6 +131,7 @@ export default function Form() {
           color="primary"
           radius="full"
           className="font-semibold w-fit m-auto"
+          isLoading={isLoading}
         >
           Submit Now
         </Button>

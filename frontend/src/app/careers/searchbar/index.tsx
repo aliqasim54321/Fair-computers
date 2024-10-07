@@ -1,44 +1,68 @@
 "use client";
 
+import React from "react";
 import { RadioGroup, Radio, CheckboxGroup, Checkbox } from "@nextui-org/react";
+import { FILTER, JOB_TYPE, WORK_MODE } from "../page";
 
-export default function Searchbar() {
+export interface SearchbarProps {
+  defaultFilter: FILTER;
+  onChange: (form: {
+    datePosted: string;
+    jobType: JOB_TYPE[];
+    workMode: WORK_MODE[];
+  }) => void;
+}
+
+export default function Searchbar({ defaultFilter, onChange }: SearchbarProps) {
+  const [datePosted, setDatePosted] = React.useState(defaultFilter.datePosted);
+  const [jobType, setJobType] = React.useState<string[] | JOB_TYPE[]>(defaultFilter.jobType);
+  const [workMode, setWorkMode] = React.useState<string[] | WORK_MODE[]>(defaultFilter.workMode);
+
+  React.useEffect(() => {
+    onChange({
+      datePosted,
+      jobType: jobType as JOB_TYPE[],
+      workMode: workMode as WORK_MODE[],
+    });
+  }, [datePosted, jobType, workMode]); //eslint-disable-line
+
   return (
     <form className="w-[192px] hidden md:block">
       <RadioGroup
         label="Date Posted"
-        defaultValue="1"
+        onValueChange={setDatePosted}
+        defaultValue={datePosted}
         classNames={{
           label: "text-2xl text-primary font-bold mb-3",
           wrapper: "text-[#2C2C2E] mb-6",
         }}
       >
         <Radio
-          value="2"
+          value="24"
           classNames={{ label: "text-sm font-manrope", labelWrapper: "p-2" }}
         >
           Last 24 hours
         </Radio>
         <Radio
-          value="3"
+          value="72"
           classNames={{ label: "text-sm font-manrope", labelWrapper: "p-2" }}
         >
           Last 3 days
         </Radio>
         <Radio
-          value="4"
+          value="168"
           classNames={{ label: "text-sm font-manrope", labelWrapper: "p-2" }}
         >
           Last 7 days
         </Radio>
         <Radio
-          value="5"
+          value="336"
           classNames={{ label: "text-sm font-manrope", labelWrapper: "p-2" }}
         >
           Last 14 days
         </Radio>
         <Radio
-          value="1"
+          value="0"
           classNames={{ label: "text-sm font-manrope", labelWrapper: "p-2" }}
         >
           Anytime
@@ -46,77 +70,43 @@ export default function Searchbar() {
       </RadioGroup>
       <CheckboxGroup
         label="Job Type"
-        defaultValue={["1"]}
+        onValueChange={setJobType}
+        defaultValue={jobType}
         classNames={{
           label: "text-2xl text-primary font-bold mb-3",
           wrapper: "text-[#2C2C2E] mb-6",
         }}
       >
-        <Checkbox
-          value="1"
-          radius="sm"
-          classNames={{ label: "text-sm font-manrope p-2" }}
-        >
-          Full-time
-        </Checkbox>
-        <Checkbox
-          value="2"
-          radius="sm"
-          classNames={{ label: "text-sm font-manrope p-2" }}
-        >
-          Contract
-        </Checkbox>
-        <Checkbox
-          value="3"
-          radius="sm"
-          classNames={{ label: "text-sm font-manrope p-2" }}
-        >
-          Internship
-        </Checkbox>
-        <Checkbox
-          value="4"
-          radius="sm"
-          classNames={{ label: "text-sm font-manrope p-2" }}
-        >
-          Part-time
-        </Checkbox>
-        <Checkbox
-          value="5"
-          radius="sm"
-          classNames={{ label: "text-sm font-manrope p-2" }}
-        >
-          temporary
-        </Checkbox>
+        {Object.entries(JOB_TYPE).map(([key, value]) => (
+          <Checkbox
+            key={key}
+            value={value}
+            radius="sm"
+            classNames={{ label: "text-sm font-manrope p-2" }}
+          >
+            {value}
+          </Checkbox>
+        ))}
       </CheckboxGroup>
       <CheckboxGroup
         label="Work mode"
-        defaultValue={["1"]}
+        onValueChange={setWorkMode}
+        defaultValue={workMode}
         classNames={{
           label: "text-2xl text-primary font-bold mb-3",
           wrapper: "text-[#2C2C2E] mb-6",
         }}
       >
-        <Checkbox
-          value="1"
-          radius="sm"
-          classNames={{ label: "text-sm font-manrope p-2" }}
-        >
-          On-site
-        </Checkbox>
-        <Checkbox
-          value="2"
-          radius="sm"
-          classNames={{ label: "text-sm font-manrope p-2" }}
-        >
-          Remote
-        </Checkbox>
-        <Checkbox
-          value="3"
-          radius="sm"
-          classNames={{ label: "text-sm font-manrope p-2" }}
-        >
-          Hybrid
-        </Checkbox>
+        {Object.entries(WORK_MODE).map(([key, value]) => (
+          <Checkbox
+            key={key}
+            value={value}
+            radius="sm"
+            classNames={{ label: "text-sm font-manrope p-2" }}
+          >
+            {value}
+          </Checkbox>
+        ))}
       </CheckboxGroup>
     </form>
   );

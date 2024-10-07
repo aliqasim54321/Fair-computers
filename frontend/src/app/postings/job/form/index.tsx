@@ -2,11 +2,23 @@
 
 import React from "react";
 import { Button, Input, Textarea, Modal } from "@/components";
+import { useAsyncFn } from "@/hooks";
 
 export default function Form() {
   const [open, setOpen] = React.useState(false);
 
   const inputFile = React.useRef<HTMLInputElement | null>(null);
+
+  const { mutate, isLoading } = useAsyncFn<any>(
+    "/job-postings",
+    "POST",
+    undefined,
+    {
+      onSuccess: () => {
+        setOpen(true);
+      },
+    },
+  );
 
   const onFileButtonClick = () => {
     inputFile?.current?.click();
@@ -14,7 +26,8 @@ export default function Form() {
 
   const onFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setOpen(true);
+    const formData = new FormData(e.currentTarget);
+    mutate(Object.fromEntries(formData));
   };
 
   return (
@@ -31,39 +44,58 @@ export default function Form() {
         className="flex flex-col m-auto max-w-[700px] flex-1 gap-6 border-1 border-dark p-10 rounded-lg"
       >
         <Input
+          isRequired
+          required
+          name="jobTitle"
           variant="rectangle"
           label="Job Title"
           placeholder="Enter a clear, concise job title (e.g., 'UX Designer', 'Marketing Manager')"
         />
         <div className="flex gap-5">
           <Input
+            isRequired
+            required
+            name="jobType"
             variant="rectangle"
             label="Job Type"
             placeholder="Full-time, Part-time, Internship"
           />
           <Input
+            isRequired
+            required
+            name="location"
             variant="rectangle"
             label="Location"
             placeholder="Enter the job location or Remote"
           />
         </div>
         <Textarea
+          isRequired
+          required
+          name="jobDescription"
           variant="rectangle"
           label="Job Description"
           placeholder="Describe the role, responsibilities, and what you’re looking for in a candidate."
         />
         <Input
+          isRequired
+          required
+          name="requiredQualifications"
           variant="rectangle"
           label="Required Qualifications"
           placeholder="List essential qualifications, skills, or certifications, separated by commas"
         />
         <div className="flex gap-5">
           <Input
+            isRequired
+            required
+            name="salaryRange"
             variant="rectangle"
             label="Salary Range"
             placeholder="$18 - $20 / hour"
           />
           <Input
+            name="jobLink"
             variant="rectangle"
             label="Job Link (Optional)"
             placeholder="Job link on LinkedIn etc"
@@ -74,7 +106,7 @@ export default function Form() {
             Upload Job Description (PDF) (optional)
           </div>
           <input
-            name="company"
+            name="jobDescriptionFile"
             ref={inputFile}
             className="hidden"
             type="file"
@@ -101,6 +133,7 @@ export default function Form() {
           color="primary"
           radius="full"
           className="font-semibold w-fit m-auto"
+          isLoading={isLoading}
         >
           Submit Now
         </Button>

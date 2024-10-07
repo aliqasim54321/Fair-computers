@@ -1,15 +1,15 @@
 "use client";
 
 import React from "react";
-import { Button, Input, Textarea } from "@/components";
+import { Button, Input, Textarea, Modal } from "@/components";
 import { useAsyncFn } from "@/hooks";
 
 export default function Form() {
-  const { mutate } = useAsyncFn<any>("/contact", "POST", undefined, {
-    onSuccess: (result) => {
-      alert(
-        "We have received your message and will contact you within 24 hours.",
-      );
+  const [open, setOpen] = React.useState(false);
+
+  const { mutate, isLoading } = useAsyncFn<any>("/contact", "POST", undefined, {
+    onSuccess: () => {
+      setOpen(true);
     },
   });
 
@@ -24,6 +24,13 @@ export default function Form() {
 
   return (
     <section className="container max-w-[1280px] mx-auto p-6 flex flex-col gap-10 md:flex-row items-center mb-8">
+      <Modal
+        open={open}
+        onChange={setOpen}
+        okText="Close"
+        closable={false}
+        text="We have received your message and will contact you within 24 hours."
+      />
       <div className="flex flex-col gap-8 flex-1">
         <div className="text-primary text-xs font-semibold font-general-sans">
           Contact US
@@ -98,6 +105,7 @@ export default function Form() {
           color="primary"
           radius="full"
           className="font-semibold w-fit m-auto"
+          isLoading={isLoading}
         >
           Submit Now
         </Button>

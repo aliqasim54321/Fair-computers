@@ -3,10 +3,10 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import useSWR, { SWRResponse, SWRConfiguration } from "swr";
 
-type RequestBody = Record<string, unknown>;
+export type RequestBody = Record<string, unknown>;
 
 interface AsyncFnProps<T> extends Omit<SWRResponse<T, any>, "mutate"> {
-  mutate: (options: RequestBody) => void; // Method to trigger a refetch
+  mutate: (options?: RequestBody) => void; // Method to trigger a refetch
 }
 
 export function useAsyncFn<T>(
@@ -20,10 +20,6 @@ export function useAsyncFn<T>(
     useState<Record<string, unknown>>(initialBody);
 
   const options = {
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
     method,
     body: requestBody,
   };

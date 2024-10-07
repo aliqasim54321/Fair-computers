@@ -83,7 +83,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
 
   const { setUser, user, logout } = useApp();
 
-  const { mutate: signIn } = useAsyncFn<UserProps>(
+  const { mutate: signIn, isLoading: signInLoading } = useAsyncFn<UserProps>(
     "/auth/signin",
     "POST",
     undefined,
@@ -101,18 +101,23 @@ export default function Template({ children }: { children: React.ReactNode }) {
     },
   );
 
-  const { mutate: signUp } = useAsyncFn("/auth/signup", "POST", undefined, {
-    onSuccess: (result) => {
-      const profile = {
-        token: result.token,
-        name: result.user.name,
-        email: result.user.email,
-      };
-      setUser(profile);
-      setSessionStorageItem("user", profile);
-      UserModal.onClose();
+  const { mutate: signUp, isLoading: signUpLoading } = useAsyncFn(
+    "/auth/signup",
+    "POST",
+    undefined,
+    {
+      onSuccess: (result) => {
+        const profile = {
+          token: result.token,
+          name: result.user.name,
+          email: result.user.email,
+        };
+        setUser(profile);
+        setSessionStorageItem("user", profile);
+        UserModal.onClose();
+      },
     },
-  });
+  );
 
   const handleSignin = React.useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
@@ -266,6 +271,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
                         className="font-general-sans"
                         color="primary"
                         type="submit"
+                        isLoading={signInLoading}
                       >
                         Sign In
                       </Button>
@@ -318,6 +324,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
                         className="font-general-sans"
                         color="primary"
                         type="submit"
+                        isLoading={signUpLoading}
                       >
                         Sign Up
                       </Button>
